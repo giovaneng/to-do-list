@@ -100,4 +100,8 @@ Acesse: http://localhost:1880
 Importe o arquivo: node-red/flows.json
 
 Autor: Giovane Rodrigues
+<<<<<<< HEAD
 Contato: 31-992568138
+=======
+Contato: 31-992568138
+>>>>>>> 9c86a9eb8588674708fe53ffbebae1a7558d8cc5
