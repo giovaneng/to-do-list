@@ -26,9 +26,9 @@ TesteTecnico/
 │
 └── README.md
 
-Tecnologias utilizadas
+## Tecnologias utilizadas
 
-Front-end
+# Front-end
 
 Angular
 TypeScript
@@ -36,13 +36,13 @@ HTML
 CSS
 Bootstrap
 
-Back-end
+# Back-end
 
 C#
 ASP.NET Core
 Entity Framework Core
 
-Banco de dados
+# Banco de dados
 PostgreSQL
 Integração externa
 
@@ -51,7 +51,7 @@ Porta de acesso ao swagger: http://localhost:5295/swagger
 
 [Swagger](./screenshots/swagger.png.png)
 
-Rotas da API:
+## Rotas da API:
 
 Método	Rota	Descrição
 GET	/api/task	Lista todas as tarefas
@@ -61,7 +61,7 @@ PUT	/api/task/{id}	Atualiza uma tarefa existente
 DELETE	/api/task/{id}	Remove uma tarefa
 PUT	/api/task/{id}/complete	Marca a tarefa como concluída
 
-Formulário de criação de tarefa
+## Formulário de criação de tarefa
 
 [Tarefa](./screenshots/newtask.png.png)
 
@@ -75,7 +75,7 @@ Após isso, basta clicar em Adicionar tarefa.
 
 [TarefaConcluir](./screenshots/task.png.png)
 
-Para este teste, a escolha foi manter a solução mais direta e objetiva, priorizando:
+## Para este teste, a escolha foi manter a solução mais direta e objetiva, priorizando:
 
 simplicidade
 clareza
@@ -97,7 +97,7 @@ a implementação foi mantida de forma objetiva, com menor nível de abstração
 
 Em um projeto maior, com múltiplas entidades e regras mais complexas, DTOs e Services seriam recomendados para melhorar separação de responsabilidades e manutenção.
 
-Node-RED
+## Node-RED
 
 A parte do Node-RED foi feita separadamente do sistema To Do List, conforme solicitado no teste.
 
@@ -124,7 +124,7 @@ Rotas utilizadas no Node-RED:
 /cep/search
 /corretoras
 
-Como executar o projeto
+## Como executar o projeto
 Pré-requisitos
 
 Antes de executar, é necessário ter instalado na máquina:
@@ -154,7 +154,7 @@ http://localhost:5295/swagger
 
 dependendo da configuração local.
 
-Executando o front-end
+## Executando o front-end
 
 Volte para a raiz do projeto e rode:
 
@@ -166,7 +166,7 @@ Depois disso, o front-end ficará disponível em:
 
 http://localhost:4200
 
-Executando o Node-RED
+## Executando o Node-RED
 
 Com o Node-RED instalado:
 
