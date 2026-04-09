@@ -1,191 +1,103 @@
 # Technical Test – Junior Developer
+Este repositório contém a solução desenvolvida para o teste técnico de Desenvolvedor Júnior. O projeto é dividido em duas frentes independentes: um sistema de gerenciamento de tarefas (To Do List) e uma integração com APIs externas via Node-RED.
 
-Este repositório contém a solução desenvolvida para o teste técnico de Desenvolvedor Júnior, composta por duas partes independentes:
+A estrutura do projeto segue as diretrizes solicitadas, apresentando separação clara entre front-end, back-end, banco de dados e fluxos de automação.
 
-- Sistema de gerenciamento de tarefas - To do List
-- Integração com APIs externas utilizando Node-RED
+Tela Principal
 
-O projeto foi organizado seguindo a estrutura solicitada no teste, com separação entre front-end, back-end, banco de dados e fluxos do Node-RED.
+As capturas de tela do sistema podem ser visualizadas no diretório de documentação.
 
-![Tela principal](./screenshots/to-do-list.png.png)
+[Tela Principal](./screenshots/to-do-list.png.png)
 
-## Estrutura do projeto
+## Estrutura do Projeto
+TesteTecnico/ │ ├── backend/ # Código fonte da API em ASP.NET Core │ └── backendTodo/ │ ├── frontend/ # Aplicação SPA em Angular │ ├── database/ # Scripts de criação e população do banco de dados │ └── script.sql │ ├── node-red/ # Exportação dos fluxos de integração (JSON) │ └── flows.json │ └── README.md
 
-TesteTecnico/
-│
-├── backend/
-│   └── backendTodo/
-│
-├── frontend/
-│
-├── database/
-│   └── script.sql
-│
-├── node-red/
-│   └── flows.json
-│
-└── README.md
+## Tecnologias Utilizadas
 
-Tecnologias utilizadas
-
-Front-end
+- Front-end
 
 Angular
 TypeScript
-HTML
-CSS
+HTML / CSS
 Bootstrap
 
-Back-end
+- Back-end
 
 C#
 ASP.NET Core
 Entity Framework Core
+Banco de Dados -PostgreSQL
 
-Banco de dados
-PostgreSQL
-Integração externa
+## Documentação da API (Swagger)
+A API possui documentação interativa via Swagger para facilitar a visualização e o teste dos endpoints em tempo de execução.
 
-A API também conta com documentação via Swagger para facilitar os testes dos endpoints.
-Porta de acesso ao swagger: http://localhost:5295/swagger
+Acesso local: http://localhost:5295/swagger
 
 [Swagger](./screenshots/swagger.png.png)
 
-Rotas da API:
+## Rotas da API
 
-Método	Rota	Descrição
-GET	/api/task	Lista todas as tarefas
-GET	/api/task/{id}	Busca uma tarefa por ID
-POST	/api/task	Cria uma nova tarefa
-PUT	/api/task/{id}	Atualiza uma tarefa existente
-DELETE	/api/task/{id}	Remove uma tarefa
-PUT	/api/task/{id}/complete	Marca a tarefa como concluída
+Método Rota Descrição GET /api/task Lista todas as tarefas GET /api/task/{id} Busca uma tarefa específica por ID POST /api/task Cria uma nova tarefa PUT /api/task/{id} Atualiza os dados de uma tarefa existente DELETE /api/task/{id} Remove uma tarefa do sistema PUT /api/task/{id}/complete Marca uma tarefa como concluída
 
-Formulário de criação de tarefa
+- Interface do Sistema
+Criação de tarefa
 
-[Tarefa](./screenshots/newtask.png.png)
+[newTask](./screenshots/newtask.png.png)
 
-Nesta seção, o usuário pode informar:
+Nesta seção, o usuário pode informar título, descrição e prioridade da tarefa.
 
-título da tarefa
-descrição
-prioridade
+## Decisões de Implementação
 
-Após isso, basta clicar em Adicionar tarefa.
+A arquitetura do projeto foi planejada para priorizar a simplicidade, clareza e o atendimento direto aos requisitos solicitados.
 
-[TarefaConcluir](./screenshots/task.png.png)
+- Sobre a não utilização de DTOs e Service Layer
 
-Para este teste, a escolha foi manter a solução mais direta e objetiva, priorizando:
+Para este teste específico, optou-se por uma estrutura enxuta. A utilização de camadas adicionais de abstração (como DTOs e Services) foi considerada desnecessária devido ao contexto de um CRUD simples com apenas uma entidade principal.
 
-simplicidade
-clareza
-legibilidade
-foco nos requisitos solicitados
-Por que não foram utilizados DTOs e camada de Service?
+Em cenários de aplicações escaláveis com regras de negócio complexas, essas camadas seriam prontamente aplicadas para garantir melhor desacoplamento e manutenção.
 
-Neste projeto, a estrutura foi mantida propositalmente mais enxuta por se tratar de um CRUD pequeno e com regras simples.
+## Integrações Node-RED
 
-A utilização de DTOs e uma camada de Service poderia adicionar mais complexidade estrutural do que benefício real para este contexto.
+Desenvolvido de forma independente do sistema principal, o fluxo Node-RED contempla:
 
-Como a aplicação possui:
+- Broker Catalog: consulta a API de corretoras da BrasilAPI e renderiza os dados em uma página web
+- Zip Code Searcher: busca de endereços via CEP com tratamento de erros para formatos inválidos ou registros não encontrados
+- Rotas Node-RED /cep (Interface de busca) /cep/search (Lógica de busca) /corretoras (Listagem de corretoras)
 
-apenas uma entidade principal
-operações diretas de CRUD
-regras de negócio simples
 
-a implementação foi mantida de forma objetiva, com menor nível de abstração.
+## Como Executar o Projeto
 
-Em um projeto maior, com múltiplas entidades e regras mais complexas, DTOs e Services seriam recomendados para melhorar separação de responsabilidades e manutenção.
-
-Node-RED
-
-A parte do Node-RED foi feita separadamente do sistema To Do List, conforme solicitado no teste.
-
-Os fluxos implementados realizam:
-
-Broker Catalog
-
-Consulta a API de corretoras da BrasilAPI e exibe as informações em página web.
-
-Zip Code Searcher
-
-Permite pesquisar um CEP e exibir:
-
-rua
-bairro
-cidade
-estado
-
-Também foi feito tratamento para entradas inválidas e CEP não encontrado.
-
-Rotas utilizadas no Node-RED:
-
-/cep
-/cep/search
-/corretoras
-
-Como executar o projeto
 Pré-requisitos
 
-Antes de executar, é necessário ter instalado na máquina:
+.NET SDK 
+Node.js e 
+npm Angular CLI 
+PostgreSQL 
+Node-RED instalado globalmente
 
-.NET SDK
-Node.js
-Angular CLI
-PostgreSQL
-Node-RED
-Instalar Angular CLI
-npm install -g @angular/cli
-Instalar Node-RED
-npm install -g --unsafe-perm node-red
-Executando o back-end
+## Passo a passo
 
-Partindo da pasta raiz do projeto:
+Configurar o banco de dados Execute o arquivo database/script.sql no seu servidor PostgreSQL.
 
-cd backend
-cd backendTodo
+- Executar o back-end
+
+cd backend/
+cd backendTodo 
 dotnet run
 
-O servidor da API será iniciado localmente.
+- Executar o front-end
 
-Normalmente o Swagger ficará disponível em uma URL parecida com:
-
-http://localhost:5295/swagger
-
-dependendo da configuração local.
-
-Executando o front-end
-
-Volte para a raiz do projeto e rode:
-
-cd frontend
-npm install
+cd frontend 
 ng serve
 
-Depois disso, o front-end ficará disponível em:
+A aplicação estará disponível em: http://localhost:4200
 
-http://localhost:4200
-
-Executando o Node-RED
-
-Com o Node-RED instalado:
-
+- Executar o Node-RED
 node-red
 
-Depois, abra no navegador:
+Acesse: http://localhost:1880
 
-http://localhost:1880
-http://localhost:1880/cep
-http://localhost:1880/corretoras
+Importe o arquivo: node-red/flows.json
 
-Importe o arquivo:
-
-/node-red/flows.json
-
-Depois é só fazer o deploy do fluxo.
-
-Autor
-
-Giovane Rodrigues 
-
-31-992568138
+Autor: Giovane Rodrigues
+Contato: 31-992568138
