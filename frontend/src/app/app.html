@@ -1,0 +1,136 @@
+<div class="page">
+  <div class="container">
+
+    <header class="hero">
+      <h1>To Do List</h1>
+      <p>Organize suas tarefas de forma eficiente</p>
+    </header>
+
+    <section class="add-task-form">
+      <div class="form-grid">
+        <div class="form-group form-group-full">
+          <label for="title">Título da tarefa</label>
+          <input id="title" type="text" class="form-control custom-input" placeholder="Digite o título da tarefa"
+            [(ngModel)]="newTaskTitle" />
+        </div>
+
+        <div class="form-group form-group-full">
+          <label for="description">Descrição</label>
+          <textarea id="description" class="form-control custom-input custom-textarea" rows="4"
+            placeholder="Digite a descrição" [(ngModel)]="newTaskDescription"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="priority">Prioridade</label>
+          <select id="priority" class="form-select custom-input" [(ngModel)]="newTaskPriority">
+            <option value="BAIXA">Baixa</option>
+            <option value="MEDIA">Média</option>
+            <option value="ALTA">Alta</option>
+          </select>
+        </div>
+
+        <div class="form-group form-actions">
+          <label class="invisible-label">Ação</label>
+          <button type="button" class="btn btn-primary add-btn" (click)="addTask()">
+            + Adicionar tarefa
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="filters">
+      <button class="filter-btn" [class.active]="activeFilter === 'todas'" (click)="setFilter('todas')">
+        Todas <span>{{ tasks.length }}</span>
+      </button>
+
+      <button class="filter-btn" [class.active]="activeFilter === 'pendentes'" (click)="setFilter('pendentes')">
+        Pendentes <span>{{ totalPendentes }}</span>
+      </button>
+
+      <button class="filter-btn" [class.active]="activeFilter === 'concluidas'" (click)="setFilter('concluidas')">
+        Concluídas <span>{{ totalConcluidas }}</span>
+      </button>
+    </section>
+
+    <section *ngIf="filteredTasks.length === 0" class="empty-state">
+      <h2>Nenhuma tarefa encontrada</h2>
+      <p>Adicione uma nova tarefa para começar.</p>
+    </section>
+
+    <section *ngIf="filteredTasks.length > 0" class="task-list">
+      <article class="task-card" *ngFor="let task of filteredTasks">
+
+        <div class="task-top">
+          <h3>{{ task.title }}</h3>
+          <span class="priority-badge" [ngClass]="getPriorityClass(task.priority)">
+            {{ task.priority }}
+          </span>
+        </div>
+
+        <p class="description">{{ task.description }}</p>
+
+        <div class="meta">
+          <span class="status-text">{{ getStatusLabel(task.status) }}</span>
+          <span class="date-text">{{ task.creationDate | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+
+        <div class="task-actions">
+          <button *ngIf="task.status?.toUpperCase() !== 'CONCLUIDA'" type="button" class="btn btn-success"
+            (click)="markAsCompleted(task.id)">
+            Concluir
+          </button>
+
+          <button type="button" class="btn btn-warning" (click)="openEditModal(task)">
+            Editar
+          </button>
+
+          <button type="button" class="btn btn-danger" (click)="deleteTask(task.id)">
+            Excluir
+          </button>
+        </div>
+
+      </article>
+    </section>
+
+  </div>
+
+  <div class="modal-backdrop-custom" *ngIf="isEditModalOpen">
+    <div class="edit-modal">
+      <div class="edit-modal-header">
+        <h2>Editar tarefa</h2>
+        <button type="button" class="close-modal-btn" (click)="closeEditModal()">×</button>
+      </div>
+
+      <div class="edit-modal-body">
+        <div class="form-group">
+          <label for="editTitle">Título</label>
+          <input id="editTitle" type="text" class="form-control custom-input" [(ngModel)]="editTaskTitle" />
+        </div>
+
+        <div class="form-group">
+          <label for="editDescription">Descrição</label>
+          <textarea id="editDescription" class="form-control custom-input custom-textarea" rows="4"
+            [(ngModel)]="editTaskDescription"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="editPriority">Prioridade</label>
+          <select id="editPriority" class="form-select custom-input" [(ngModel)]="editTaskPriority">
+            <option value="BAIXA">Baixa</option>
+            <option value="MEDIA">Média</option>
+            <option value="ALTA">Alta</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="edit-modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeEditModal()">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="saveTaskEdit()">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
