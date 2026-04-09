@@ -32,6 +32,7 @@ TesteTecnico/
 │   └── flows.json
 │
 └── README.md
+```bash
 
 #Tecnologias utilizadas
 
@@ -52,11 +53,11 @@ Swagger
 
 A API também conta com documentação via Swagger para facilitar os testes dos endpoints.
 
-🔗 Acesso:
+Acesso:
 
 http://localhost:5295/swagger
 
-## Rotas da API
+#Rotas da API
 Método	Rota	Descrição
 GET	/api/task	Lista todas as tarefas
 GET	/api/task/{id}	Busca uma tarefa por ID
