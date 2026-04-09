@@ -7,6 +7,8 @@ Este repositório contém a solução desenvolvida para o teste técnico de Dese
 
 O projeto foi organizado seguindo a estrutura solicitada no teste, com separação entre front-end, back-end, banco de dados e fluxos do Node-RED.
 
+![Tela principal](./screenshots/to-do-list.png.png)
+
 ## Estrutura do projeto
 
 TesteTecnico/
@@ -47,6 +49,8 @@ Integração externa
 A API também conta com documentação via Swagger para facilitar os testes dos endpoints.
 Porta de acesso ao swagger: http://localhost:5295/swagger
 
+[Swagger](./screenshots/swagger.png.png)
+
 Rotas da API:
 
 Método	Rota	Descrição
@@ -59,6 +63,8 @@ PUT	/api/task/{id}/complete	Marca a tarefa como concluída
 
 Formulário de criação de tarefa
 
+[Tarefa](./screenshots/newtask.png.png)
+
 Nesta seção, o usuário pode informar:
 
 título da tarefa
@@ -66,6 +72,8 @@ descrição
 prioridade
 
 Após isso, basta clicar em Adicionar tarefa.
+
+[TarefaConcluir](./screenshots/task.png.png)
 
 Para este teste, a escolha foi manter a solução mais direta e objetiva, priorizando:
 
