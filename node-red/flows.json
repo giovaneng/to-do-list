@@ -1,0 +1,273 @@
+[
+    {
+        "id": "779f94c568d26514",
+        "type": "tab",
+        "label": "Busca CEP",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8918c1417755506b",
+        "type": "tab",
+        "label": "Corretoras",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3b120ac05ffe8033",
+        "type": "http in",
+        "z": "779f94c568d26514",
+        "name": "Pagina CEP",
+        "url": "/cep",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 330,
+        "y": 120,
+        "wires": [
+            [
+                "3982636d46fa01aa"
+            ]
+        ]
+    },
+    {
+        "id": "3982636d46fa01aa",
+        "type": "template",
+        "z": "779f94c568d26514",
+        "name": "HTML CEP",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Buscar CEP</title>\n  <style>\n    body {\n      font-family: Arial, sans-serif;\n      margin: 40px;\n      background: #f5f7fb;\n    }\n\n    .box {\n      background: #fff;\n      padding: 20px;\n      border-radius: 10px;\n      box-shadow: 0 2px 8px rgba(0,0,0,.08);\n      max-width: 500px;\n    }\n\n    input, button {\n      padding: 10px;\n      font-size: 16px;\n    }\n\n    input {\n      width: 250px;\n      margin-right: 8px;\n    }\n\n    button {\n      cursor: pointer;\n    }\n  </style>\n</head>\n<body>\n  <h1>Busca de CEP</h1>\n\n  <div class=\"box\">\n    <form action=\"/cep/search\" method=\"get\">\n      <input type=\"text\" name=\"cep\" placeholder=\"Digite o CEP\" maxlengh=\"9\" required>\n      <button type=\"submit\">Buscar</button>\n    </form>\n  </div>\n</body>\n</html>",
+        "output": "str",
+        "x": 570,
+        "y": 120,
+        "wires": [
+            [
+                "78342a37b186be35"
+            ]
+        ]
+    },
+    {
+        "id": "78342a37b186be35",
+        "type": "http response",
+        "z": "779f94c568d26514",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 830,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "95a34f163f39fe34",
+        "type": "http in",
+        "z": "779f94c568d26514",
+        "name": "Buscar CEP",
+        "url": "/cep/search",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "9cc83c97a0210845"
+            ]
+        ]
+    },
+    {
+        "id": "9cc83c97a0210845",
+        "type": "function",
+        "z": "779f94c568d26514",
+        "name": "function 1",
+        "func": "let cep = msg.req.query.cep || \"\";\ncep = cep.replace(/\\D/g, \"\");\n\nif (cep.length !== 8) {\n    msg.cepErro = \"CEP inválido! Digite um CEP com 8 números.\";\n    return [null, msg];\n}\n\nmsg.url = \"https://brasilapi.com.br/api/cep/v1/\" + cep;\nreturn [msg, null];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 220,
+        "wires": [
+            [
+                "7abe91996c387bc9"
+            ],
+            [
+                "c74e5cd815f02c34"
+            ]
+        ]
+    },
+    {
+        "id": "7abe91996c387bc9",
+        "type": "http request",
+        "z": "779f94c568d26514",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 520,
+        "y": 440,
+        "wires": [
+            [
+                "c2098992715baead"
+            ]
+        ]
+    },
+    {
+        "id": "c2098992715baead",
+        "type": "function",
+        "z": "779f94c568d26514",
+        "name": "function 2",
+        "func": "let data = msg.payload;\n\n\ntry {\n    if (typeof data === \"string\") {\n        data = JSON.parse(data);\n    }\n} catch (e) {\n    msg.cepErro = \"CEP não encontrado!\";\n    return msg;\n}\n\n\nif (!data || !data.cep) {\n    msg.cepErro = \"CEP não encontrado!\";\n    return msg;\n}\n\n\nmsg.cepData = {\n    cep: data.cep,\n    street: data.street || \"\",\n    neighborhood: data.neighborhood || \"\",\n    city: data.city || \"\",\n    state: data.state || \"\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 440,
+        "wires": [
+            [
+                "c74e5cd815f02c34"
+            ]
+        ]
+    },
+    {
+        "id": "c74e5cd815f02c34",
+        "type": "template",
+        "z": "779f94c568d26514",
+        "name": "Resultado",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Resultado do CEP</title>\n  <style>\n    body {\n      font-family: Arial, sans-serif;\n      margin: 40px;\n      background: #f5f7fb;\n    }\n\n    h1 {\n      color: #1f2937;\n      margin-bottom: 20px;\n    }\n\n    .card {\n      background: #ffffff;\n      border-radius: 10px;\n      padding: 18px;\n      margin-bottom: 12px;\n      box-shadow: 0 2px 8px rgba(0,0,0,0.08);\n    }\n\n    .linha {\n      font-size: 16px;\n      color: #111827;\n      margin-bottom: 6px;\n    }\n\n    .label {\n      font-weight: bold;\n    }\n\n    .btn-container {\n      margin-top: 20px;\n    }\n\n    button {\n      padding: 10px;\n      font-size: 16px;\n      cursor: pointer;\n    }\n  </style>\n</head>\n<body>\n\n\n  {{#cepErro}}\n  <script>\n    alert(\"{{cepErro}}\");\n    window.location.href = \"/cep\";\n  </script>\n  {{/cepErro}}\n\n\n  {{^cepErro}}\n  <h1>Resultado do CEP</h1>\n\n  <div class=\"card\">\n    <div class=\"linha\"><span class=\"label\">CEP:</span> {{cepData.cep}}</div>\n    <div class=\"linha\"><span class=\"label\">Rua:</span> {{cepData.street}}</div>\n    <div class=\"linha\"><span class=\"label\">Bairro:</span> {{cepData.neighborhood}}</div>\n    <div class=\"linha\"><span class=\"label\">Cidade:</span> {{cepData.city}}</div>\n    <div class=\"linha\"><span class=\"label\">Estado:</span> {{cepData.state}}</div>\n  </div>\n\n  <div class=\"btn-container\">\n    <form action=\"/cep\" method=\"get\">\n      <button type=\"submit\">Voltar</button>\n    </form>\n  </div>\n  {{/cepErro}}\n\n</body>\n</html>",
+        "output": "str",
+        "x": 800,
+        "y": 240,
+        "wires": [
+            [
+                "5dd6fc57e776c49b"
+            ]
+        ]
+    },
+    {
+        "id": "5dd6fc57e776c49b",
+        "type": "http response",
+        "z": "779f94c568d26514",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1030,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "368b91d94ffad6ef",
+        "type": "http in",
+        "z": "8918c1417755506b",
+        "name": "Pagina Corretoras",
+        "url": "/corretoras",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 240,
+        "wires": [
+            [
+                "6c39d845806c864c"
+            ]
+        ]
+    },
+    {
+        "id": "6c39d845806c864c",
+        "type": "http request",
+        "z": "8918c1417755506b",
+        "name": "Buscar corretoras",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://brasilapi.com.br/api/cvm/corretoras/v1",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 350,
+        "y": 240,
+        "wires": [
+            [
+                "220e9caeea7f413a"
+            ]
+        ]
+    },
+    {
+        "id": "220e9caeea7f413a",
+        "type": "function",
+        "z": "8918c1417755506b",
+        "name": "Tratar corretoras",
+        "func": "let lista = Array.isArray(msg.payload) ? msg.payload : [];\n\nlista = lista.slice(0, 20);\n\nmsg.corretoras = lista.map(c => {\n    return {\n        nome: c.nome_social || c.nome_comercial || \"Sem nome\",\n        cidade: c.municipio || \"Sem cidade\",\n        cnpj: c.cnpj || \"Sem CNPJ\"\n    };\n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 240,
+        "wires": [
+            [
+                "937e9e63c8e98f64"
+            ]
+        ]
+    },
+    {
+        "id": "937e9e63c8e98f64",
+        "type": "template",
+        "z": "8918c1417755506b",
+        "name": "HTML corretoras",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Catálogo de Corretoras</title>\n  <style>\n    body {\n      font-family: Arial, sans-serif;\n      margin: 40px;\n      background: #f5f7fb;\n    }\n\n    h1 {\n      color: #1f2937;\n      margin-bottom: 20px;\n    }\n\n    .card {\n      background: #ffffff;\n      border-radius: 10px;\n      padding: 14px 18px;\n      margin-bottom: 12px;\n      box-shadow: 0 2px 8px rgba(0,0,0,0.08);\n    }\n\n    .linha {\n      font-size: 16px;\n      color: #111827;\n    }\n\n    .obs {\n      margin-top: 20px;\n      color: #6b7280;\n      font-size: 14px;\n    }\n  </style>\n</head>\n<body>\n  <h1>Catálogo de Corretoras</h1>\n\n  {{#corretoras}}\n    <div class=\"card\">\n      <div class=\"linha\">\n        <strong>{{nome}}</strong> - {{cidade}} / {{cnpj}}\n      </div>\n    </div>\n  {{/corretoras}}\n\n  <p class=\"obs\">Exibindo até 20 corretoras.</p>\n</body>\n</html>",
+        "output": "str",
+        "x": 850,
+        "y": 240,
+        "wires": [
+            [
+                "42451003775265a8"
+            ]
+        ]
+    },
+    {
+        "id": "42451003775265a8",
+        "type": "http response",
+        "z": "8918c1417755506b",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1090,
+        "y": 240,
+        "wires": []
+    }
+]

@@ -1,0 +1,37 @@
+# FRONTEND (Angular)
+
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# BACKEND (.NET)
+
+backend/bin/
+backend/obj/
+backend/.vs/
+backend/*.user
+backend/*.suo
+
+# NODE-RED
+
+nodered/node_modules/
+nodered/.config.*
+nodered/.config/
+nodered/.cache/
+
+# LOGS / TEMP
+
+*.log
+
+
+# ENV / CONFIG
+
+.env
+.env.local
+backend/appsettings.Development.json
+
+# EDITOR / SYSTEM
+
+.vscode/
+.DS_Store
+Thumbs.db
